@@ -40,9 +40,20 @@ export class GewinnerZieher {
     return richieMichies;
   }
 
-  // Hauptmethode, die die oben definierten Methoden verwendet
   public verlosen(): Map<string, string> {
     const mokieBrokies = this.shuffleParticipants(); // Teilnehmer mischen
-    return this.assignPrizes(mokieBrokies); // Preise den Teilnehmern zuweisen
+    const richieMichies = new Map<string, string>();
+  
+    // Anzahl der Preise auf Anzahl der Teilnehmer begrenzen
+    const maxPreise = Math.min(this.preiseListe.length, mokieBrokies.length);
+  
+    for (let i = 0; i < maxPreise; i++) {
+      const gewonnenerPreis = this.preiseListe[i]; // Preis aus der Liste nehmen
+      const gewinnenderTeilnehmer = mokieBrokies[i]; // Teilnehmer gewinnen lassen
+      richieMichies.set(gewinnenderTeilnehmer, gewonnenerPreis.hase);
+    }
+  
+    return richieMichies;
   }
+  
 }
