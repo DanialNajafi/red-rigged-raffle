@@ -4,34 +4,15 @@
 //   \ V /  __/ |  | | (_) \__ \ |_| | | | | (_| |
 //    \_/ \___|_|  |_|\___/|___/\__,_|_| |_|\__, |
 
-import { AbsneakenderHase } from "./absneakender-hase.js";
+import { GewinnerZieher } from "./absneakender-hase.js";
 import { GewinnbarerHase } from "./gewinnbarer-hase.js";
 
 //
 export class Verlosung {
-  //  __________________________________
-  // < Main-Methode des Main-Characters >
-  //  ----------------------------------
-  //    \         __------~~-,
-  //     \      ,'            ,
-  //           /               \
-  //          /                :
-  //         |                  '
-  //         |                  |
-  //         |                  |
-  //          |   _--           |
-  //          _| =-.     .-.   ||
-  //          o|/o/       _.   |
-  //          /  ~          \ |
-  //        (____@)  ___~    |
-  //           |_===~~~.`    |
-  //        _______.--~     |
-  //        \________       |
-  //                 \      |
-  //               __/-___-- -__
-  //              /            _ \
-  public main() {
-    const redArmy = [
+
+  public starten() {
+    
+    const teilnehmerListe = [
       "@Gangsta2007",
       "@LockeDerBoss",
       "@MiiMiiSeinBruder",
@@ -66,7 +47,9 @@ export class Verlosung {
       "@LeonMachere",
       "@LeonMachere",
     ];
-    const fiktivePreise = [
+    
+  
+    const preise = [
       new GewinnbarerHase("iPhone 16 Pro", 1),
       new GewinnbarerHase("Trip nach Dubi", 1),
       new GewinnbarerHase("Stepper nach Isti", 1),
@@ -74,14 +57,16 @@ export class Verlosung {
       new GewinnbarerHase("PlayStation 5 Slim", 3),
       new GewinnbarerHase("gebrauchte Sneaker", 5),
     ];
-    const luckyMuckies = new AbsneakenderHase(
-      redArmy,
-      fiktivePreise,
-    ).absneaken();
-    for (const [opfer, gewonnenerHase] of luckyMuckies.entries()) {
-      console.log(`${opfer} gewinnt ${gewonnenerHase}`);
+    
+   
+    const luckyMuckies = new GewinnerZieher(teilnehmerListe, preise).verlosen();
+    
+   
+    for (const [teilnehmer, gewonnenerPreis] of luckyMuckies.entries()) {
+      console.log(`${teilnehmer} gewinnt ${gewonnenerPreis}`);
     }
   }
 }
 
-new Verlosung().main();
+// Starten der Verlosung
+new Verlosung().starten();

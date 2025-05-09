@@ -1,56 +1,48 @@
 import { GewinnbarerHase } from "./gewinnbarer-hase";
-//     _    _                          _                  _           _   _
-//    / \  | |__  ___ _ __   ___  __ _| | _____ _ __   __| | ___ _ __| | | | __ _ ___  ___
-//   / _ \ | '_ \/ __| '_ \ / _ \/ _` | |/ / _ \ '_ \ / _` |/ _ \ '__| |_| |/ _` / __|/ _ \
-//  / ___ \| |_) \__ \ | | |  __/ (_| |   <  __/ | | | (_| |  __/ |  |  _  | (_| \__ \  __/
-// /_/   \_\_.__/|___/_| |_|\___|\__,_|_|\_\___|_| |_|\__,_|\___|_|  |_| |_|\__,_|___/\___|
-export class AbsneakenderHase {
+
+export class GewinnerZieher {
   constructor(
-    private brokieMokies: string[],
-    private gewinnbareHasen: GewinnbarerHase[],
+    private teilnehmerListe: string[],
+    private preiseListe: GewinnbarerHase[],
   ) {}
 
-  //  _____________________________
-  // < Finger weg von meinem Code! >
-  //  -----------------------------
-  //       \                    / \  //\
-  //        \    |\___/|      /   \//  \\
-  //             /0  0  \__  /    //  | \ \
-  //            /     /  \/_/    //   |  \  \
-  //            @_^_@'/   \/_   //    |   \   \
-  //            //_^_/     \/_ //     |    \    \
-  //         ( //) |        \///      |     \     \
-  //       ( / /) _|_ /   )  //       |      \     _\
-  //     ( // /) '/,_ _ _/  ( ; -.    |    _ _\.-~        .-~~~^-.
-  //   (( / / )) ,-{        _      `-.|.-~-.           .~         `.
-  //  (( // / ))  '/\      /                 ~-. _ .-~      .-~^-.  \
-  //  (( /// ))      `.   {            }                   /      \  \
-  //   (( / ))     .----~-.\        \-'                 .~         \  `. \^-.
-  //              ///.----..>        \             _ -~             `.  ^-`  ^-_
-  //                ///-._ _ _ _ _ _ _}^ - - - - ~                     ~-- ,.-~
-  //
-  public absneaken(): Map<string, string> {
-    const richieMichies = new Map<string, string>();
-    const mokieBrokies = new Array<string>();
-    while (this.brokieMokies.length > 0) {
-      const zufälligerHase = Math.random();
-      const rangierterHase = Math.floor(
-        zufälligerHase * this.brokieMokies.length,
+  // Methode zum Zufällig-Mischen der Teilnehmer
+  private shuffleParticipants(): string[] {
+    const mokieBrokies: string[] = [];
+    while (this.teilnehmerListe.length > 0) {
+      const zufälligerTeilnehmer = Math.random();
+      const rangierterTeilnehmer = Math.floor(
+        zufälligerTeilnehmer * this.teilnehmerListe.length,
       );
-      const ausgesuchterHase = this.brokieMokies[rangierterHase];
-      mokieBrokies.push(ausgesuchterHase); // Ich push die Brokies auf die Mokies, yeah!
-      this.brokieMokies.pop();
+      const ausgesuchterTeilnehmer = this.teilnehmerListe[rangierterTeilnehmer];
+      mokieBrokies.push(ausgesuchterTeilnehmer); // Teilnehmer in die Gewinnerliste einfügen
+      this.teilnehmerListe.pop();
     }
-    while (this.gewinnbareHasen.length > 0 && mokieBrokies.length > 0) {
-      const gewonnenerHase = this.gewinnbareHasen[0];
-      const gewinnenderHase = mokieBrokies.shift();
-      richieMichies.set(gewinnenderHase, gewonnenerHase.hase);
-      if (gewonnenerHase.zahlenmässigerHase > 0) {
-        this.gewinnbareHasen.shift();
+    return mokieBrokies;
+  }
+
+  // Methode zum Zuweisen der Preise an die Teilnehmer
+  private assignPrizes(mokieBrokies: string[]): Map<string, string> {
+    const richieMichies = new Map<string, string>();
+
+    while (this.preiseListe.length > 0 && mokieBrokies.length > 0) {
+      const gewonnenerPreis = this.preiseListe[0];
+      const gewinnenderTeilnehmer = mokieBrokies.shift();
+      richieMichies.set(gewinnenderTeilnehmer, gewonnenerPreis.hase);
+      
+      if (gewonnenerPreis.zahlenmässigerHase > 0) {
+        this.preiseListe.shift(); // Preis entfernen, wenn alle vergeben sind
       } else {
-        this.gewinnbareHasen[0].zahlenmässigerHase--;
+        this.preiseListe[0].zahlenmässigerHase--;
       }
     }
+    
     return richieMichies;
+  }
+
+  // Hauptmethode, die die oben definierten Methoden verwendet
+  public verlosen(): Map<string, string> {
+    const mokieBrokies = this.shuffleParticipants(); // Teilnehmer mischen
+    return this.assignPrizes(mokieBrokies); // Preise den Teilnehmern zuweisen
   }
 }
